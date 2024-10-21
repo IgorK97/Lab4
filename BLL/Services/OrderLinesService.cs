@@ -9,18 +9,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static BLL.Services.ReportService;
+using Interfaces.Services;
+using Interfaces.Repository;
 
 namespace BLL.Services
 {
-    public class OrderLinesService
+    public class OrderLinesService : IOrderLineService
     {
+        private IDbRepos dbr;
         private PizzaDeliveryContext db;
-        public OrderLinesService()
+        public OrderLinesService(IDbRepos repos)
         {
+            dbr = repos;
             db = new PizzaDeliveryContext();
         }
 
-        public enum PizzaSize
+        public enum PizzaSizeEnum
         {
             Small = 1,
             Medium = 2,
@@ -113,15 +117,15 @@ namespace BLL.Services
             return db.DelStatuses.ToList().Select(i => new DelStatusDto(i)).ToList();
         }
 
-        public BindingList<IngredientShortDto> GetIngredients(PizzaSize ps)
+        public BindingList<IngredientShortDto> GetIngredients(PizzaSize? ps = null)
         {
             var res = db.Ingredients.ToList().Select(i => new IngredientShortDto
             {
                 Id = i.Id,
                 C_name = i.Name,
-                price = ps == PizzaSize.Small ? i.PricePerGram * i.Small : ps == PizzaSize.Medium ?
+                price = ps.Id == (int)PizzaSizeEnum.Small ? i.PricePerGram * i.Small : ps.Id == (int)PizzaSizeEnum.Medium ?
                 i.PricePerGram * i.Medium : i.PricePerGram * i.Big,
-                weight = ps == PizzaSize.Small ? i.Small : ps == PizzaSize.Medium ?
+                weight = ps.Id == (int)PizzaSizeEnum.Small ? i.Small : ps.Id == (int)PizzaSizeEnum.Medium ?
                 i.Medium : i.Big,
                 active = false
             }).ToList();
@@ -164,9 +168,9 @@ namespace BLL.Services
             {
                 Id = i.Id,
                 C_name = i.Name,
-                price = ps == PizzaSize.Small ? i.PricePerGram * i.Small : ps == PizzaSize.Medium ?
+                price = ps.Id == (int)PizzaSizeEnum.Small ? i.PricePerGram * i.Small : ps.Id == (int)PizzaSizeEnum.Medium ?
                     i.PricePerGram * i.Medium : i.PricePerGram * i.Big,
-                weight = ps == PizzaSize.Small ? i.Small : ps == PizzaSize.Medium ?
+                weight = ps.Id == (int)PizzaSizeEnum.Small ? i.Small : ps.Id == (int)PizzaSizeEnum.Medium ?
                     i.Medium : i.Big,
                 active = i.OrderLines.Any(ol => ol.Id == ol_id)
             }).ToList();
@@ -177,7 +181,7 @@ namespace BLL.Services
         public (decimal price, decimal weight) GetBasePriceAndWeight(PizzaSize ps)
         {
 
-            var res = db.PizzaSizes.ToList().Where(i => i.Id == (int) ps/*(int)Convert.ChangeType(ps, ps.GetTypeCode())*/).
+            var res = db.PizzaSizes.ToList().Where(i => i.Id == ps.Id/*(int)Convert.ChangeType(ps, ps.GetTypeCode())*/).
                 Select(i => new
                 {
                     price = i.Price,
@@ -193,7 +197,7 @@ namespace BLL.Services
             //    throw new ArgumentException($"Pizza with ID {p_id} not found");
             decimal res_price = 0, res_weight = 0, base_price, base_weight;
             (base_price, base_weight) = GetBasePriceAndWeight(ps);
-            if (ps == PizzaSize.Small)
+            if (ps.Id == (int)PizzaSizeEnum.Small)
             {
                 res_price = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
                 .Select(p => new
@@ -204,7 +208,7 @@ namespace BLL.Services
                 res_weight = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
                     .Sum(i => i.Small);
             }
-            else if (ps == PizzaSize.Medium)
+            else if (ps.Id == (int)PizzaSizeEnum.Medium)
             {
                 res_price = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
                 .Select(p => new

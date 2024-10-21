@@ -7,14 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Interfaces.Repository;
+using Interfaces.Services;
 
 namespace BLL.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
+        private IDbRepos dbr;
         PizzaDeliveryContext db;
-        public OrderService()
+        public OrderService(IDbRepos repos)
         {
+            dbr = repos;
             db = new PizzaDeliveryContext();
         }
 

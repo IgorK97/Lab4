@@ -4,14 +4,19 @@ using BLL;
 using BLL.Services;
 using DAL;
 using DTO;
+using Interfaces.Services;
 //using Interfaces.Services;
 
 namespace Lab3POWinForms
 {
     public partial class Form1 : Form
     {
-        OrderLinesService orderlinesService = new OrderLinesService();
-        OrderService orderService = new OrderService();
+        IOrderService orderService;
+        IReportService reportService;
+        IOrderLineService orderLineService;
+        //OrderLinesService orderlinesService = new OrderLinesService();
+        //OrderService orderService = new OrderService();
+        //ReportService reportservice = new ReportService();
         //ReportService reportService = new ReportService();
         int currentOrderId;
         int currentClientId;
@@ -27,7 +32,7 @@ namespace Lab3POWinForms
 
         AddClientForm f;
         //ORForm af;
-        public Form1()
+        public Form1(IOrderLineService orderLineService, IOrderService orderService, IReportService reportService)
         {
             InitializeComponent();
             currentClientId = 3;
@@ -39,20 +44,22 @@ namespace Lab3POWinForms
 
 
             loadData();
-
+            this.orderLineService = orderLineService;
+            this.orderService = orderService;
+            this.reportService = reportService;
         }
         private void loadData()
         {
-            allpizzas = orderlinesService.GetPizzas();
+            allpizzas = orderLineService.GetPizzas();
             allorders = orderService.GetAllOrders(currentClientId);
+            allpizzasizes = orderlinesService.GetPizzaSizes();
 
-            allingredients = orderlinesService.GetIngredients(OrderLinesService.PizzaSize.Small);
+            allingredients = orderLineService.GetIngredients(null);
             currentOrderId = orderService.GetCurrentOrder(currentClientId);
 
             allorderlines = orderlinesService.GetAllOrderLines(currentOrderId);
             alldelstatus = orderlinesService.GetDelStatuses();
 
-            allpizzasizes = orderlinesService.GetPizzaSizes();
             allmanagers = orderService.GetAllManagers();
             allcouriers = orderService.GetAllCouriers();
             FillCourierCombobox();

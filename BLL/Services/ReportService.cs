@@ -2,6 +2,7 @@
 using DAL;
 using DomainModel;
 using Interfaces.DTO;
+using Interfaces.Services;
 using System;
 using System.Data;
 using System.Collections.Generic;
@@ -10,28 +11,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Interfaces.Repository;
 
 
 namespace BLL.Services
 {
-    public class ReportService
+    public class ReportService : IReportService
     {
-        //public class OrdersByMonth
-        //{
-        //    public int order_id { get; set; }
-        //    public string? courier_id { get; set; }
-        //    public DateTime? Date { get; set; }
-        //}
-        //public class ParResult
-        //{
-        //    public int order_id { get; set; }
-        //    public string courier_id { get; set; }
-        //    //public string client_full_name { get; set; }
-        //    //public string courier_full_name { get; set; }
-        //    public DateTime order_date { get; set; }
-        //}
+        private IDbRepos db;
+        public ReportService(IDbRepos repos)
+        {
+            db = repos;
+        }
 
-        public static List<OrdersByMonth> ExecuteSP(int month, int year, int ClientId)
+        public List<OrdersByMonth> ExecuteSP(int month, int year, int ClientId)
         {
 
             PizzaDeliveryContext dbContext = new PizzaDeliveryContext();
@@ -58,14 +51,8 @@ namespace BLL.Services
 
         }
 
-        //public class ReportData
-        //{
-        //    public int Id { get; set; }
-        //    public string Name { get; set; }
-        //    public string Description { get; set; }
-        //}
 
-        public static List<ReportData> ReportPizzas(int? ingredientId)
+        public List<ReportData> ReportPizzas(int? ingredientId)
         {
 
             PizzaDeliveryContext dbContext = new PizzaDeliveryContext();

@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 using DAL;
 using DomainModel;
-using DTO;
+using Interfaces.DTO;
 using System;
 using System.Data;
 using System.Collections.Generic;
@@ -16,12 +16,12 @@ namespace BLL.Services
 {
     public class ReportService
     {
-        public class OrdersByMonth
-        {
-            public int order_id { get; set; }
-            public string? courier_id { get; set; }
-            public DateTime? Date { get; set; }
-        }
+        //public class OrdersByMonth
+        //{
+        //    public int order_id { get; set; }
+        //    public string? courier_id { get; set; }
+        //    public DateTime? Date { get; set; }
+        //}
         //public class ParResult
         //{
         //    public int order_id { get; set; }
@@ -58,12 +58,12 @@ namespace BLL.Services
 
         }
 
-        public class ReportData
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-        }
+        //public class ReportData
+        //{
+        //    public int Id { get; set; }
+        //    public string Name { get; set; }
+        //    public string Description { get; set; }
+        //}
 
         public static List<ReportData> ReportPizzas(int? ingredientId)
         {

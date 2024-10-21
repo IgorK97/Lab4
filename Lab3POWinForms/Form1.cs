@@ -52,13 +52,13 @@ namespace Lab3POWinForms
         {
             allpizzas = orderLineService.GetPizzas();
             allorders = orderService.GetAllOrders(currentClientId);
-            allpizzasizes = orderlinesService.GetPizzaSizes();
+            allpizzasizes = orderLineService.GetPizzaSizes();
 
             allingredients = orderLineService.GetIngredients(null);
             currentOrderId = orderService.GetCurrentOrder(currentClientId);
 
-            allorderlines = orderlinesService.GetAllOrderLines(currentOrderId);
-            alldelstatus = orderlinesService.GetDelStatuses();
+            allorderlines = orderLineService.GetAllOrderLines(currentOrderId);
+            alldelstatus = orderLineService.GetDelStatuses();
 
             allmanagers = orderService.GetAllManagers();
             allcouriers = orderService.GetAllCouriers();
@@ -150,14 +150,14 @@ namespace Lab3POWinForms
 
         private void buttonGetReport1_Click(object sender, EventArgs e)
         {
-            dataGridViewReport1.DataSource = ReportService.ReportPizzas((int)comboBoxIngredients.SelectedValue);
+            dataGridViewReport1.DataSource = reportService.ReportPizzas((int)comboBoxIngredients.SelectedValue);
         }
 
 
 
         private void buttonReport2_Click(object sender, EventArgs e)
         {
-            dataGridViewReport2.DataSource = ReportService.ExecuteSP((int)numericUpDown1.Value, (int)numericUpDown2.Value, currentClientId);
+            dataGridViewReport2.DataSource = reportService.ExecuteSP((int)numericUpDown1.Value, (int)numericUpDown2.Value, currentClientId);
         }
         private void buttonSaveOrders_Click(object sender, EventArgs e)
         {
@@ -192,16 +192,16 @@ namespace Lab3POWinForms
                 f.comboBoxPizzasSizes.SelectedIndex = 0;
 
                 //f.dataGridView1.DataSource = null;
-                allingredients = orderlinesService.GetIngredients(OrderLinesService.PizzaSize.Small);
+                allingredients = orderLineService.GetIngredients(null);
                 f.dataGridView1.DataSource = allingredients;
 
                 decimal count = f.numericUpDown1.Value;
 
 
                 decimal p_price, p_weight/*, base_price, base_weight*/;
-                OrderLinesService.PizzaSize ps;
-                ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
-                (p_price, p_weight) = orderlinesService.GetConcretePriceAndWeight(p.Id, ps, count);
+                //OrderLinesService.PizzaSize ps;
+                int ps = (int)f.comboBoxPizzasSizes.SelectedValue;
+                (p_price, p_weight) = orderLineService.GetConcretePriceAndWeight(p.Id, ps, count);
                 //(base_price, base_weight) = orderlinesService.GetBasePriceAndWeight(ps);
                 //p_price += base_price;
                 //p_weight += base_weight;
@@ -218,19 +218,19 @@ namespace Lab3POWinForms
         {
             int p_id = (int)f.comboBoxPizzasName.SelectedValue;
 
-            OrderLinesService.PizzaSize ps;
+            //int ps;
 
-            ps = (OrderLinesService.PizzaSize)ps_id;
+            //ps = (OrderLinesService.PizzaSize)ps_id;
 
             //f.dataGridView1.DataSource = null;
-            allingredients = orderlinesService.GetIngredients(ps);
+            allingredients = orderLineService.GetIngredients(p_id);
             f.dataGridView1.DataSource = allingredients;
-
+            ps_id = (int)f.comboBoxPizzasSizes.SelectedValue;
             decimal count = f.numericUpDown1.Value;
 
 
             decimal p_price, p_weight/*, base_price, base_weight*/;
-            (p_price, p_weight) = orderlinesService.PriceAndWeightCalculation(allingredients, ps, p_id, count);/*orderlinesService.GetConcretePriceAndWeight(p_id, ps, count)*/;
+            (p_price, p_weight) = orderLineService.PriceAndWeightCalculation(allingredients, ps_id, p_id, count);/*orderlinesService.GetConcretePriceAndWeight(p_id, ps, count)*/;
 
 
 
@@ -245,12 +245,12 @@ namespace Lab3POWinForms
             decimal p_price, p_weight/*, base_price, base_weight*/;
             int p_id = (int)f.comboBoxPizzasName.SelectedValue;
 
-            OrderLinesService.PizzaSize ps;
-            ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
+            //OrderLinesService.PizzaSize ps;
+            //ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
             decimal count = f.numericUpDown1.Value;
-
+            int ps = (int)f.comboBoxPizzasSizes.SelectedValue;
             //(p_price, p_weight) = orderlinesService.GetConcretePriceAndWeight(p_id, ps, pc_id);
-            (p_price, p_weight) = orderlinesService.PriceAndWeightCalculation(allingredients, ps, p_id, count);/*orderlinesService.GetConcretePriceAndWeight(p_id, ps, count)*/;
+            (p_price, p_weight) = orderLineService.PriceAndWeightCalculation(allingredients, ps, p_id, count);/*orderlinesService.GetConcretePriceAndWeight(p_id, ps, count)*/;
 
             f.textBoxPrice.Text = p_price.ToString();
             f.textBoxWeight.Text = p_weight.ToString();
@@ -263,13 +263,14 @@ namespace Lab3POWinForms
             decimal p_price, p_weight/*, base_price, base_weight*/;
             int p_id = (int)f.comboBoxPizzasName.SelectedValue;
 
-            OrderLinesService.PizzaSize ps;
-            ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
+            //OrderLinesService.PizzaSize ps;
+            //ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
             decimal count = f.numericUpDown1.Value;
+            int ps = (int)f.comboBoxPizzasSizes.SelectedValue;
 
             //(p_price, p_weight) = orderlinesService.GetConcretePriceAndWeight(p_id, ps, pc_id);
-            orderlinesService.ChangeAdditionalItems(allingredients, add_id);
-            (p_price, p_weight) = orderlinesService.PriceAndWeightCalculation(allingredients, ps, p_id, count);/*orderlinesService.GetConcretePriceAndWeight(p_id, ps, count)*/;
+            orderLineService.ChangeAdditionalItems(allingredients, add_id);
+            (p_price, p_weight) = orderLineService.PriceAndWeightCalculation(allingredients, ps, p_id, count);/*orderlinesService.GetConcretePriceAndWeight(p_id, ps, count)*/;
 
             f.textBoxPrice.Text = p_price.ToString();
             f.textBoxWeight.Text = p_weight.ToString();
@@ -311,9 +312,9 @@ namespace Lab3POWinForms
                     f.dataGridView1.DataSource = allingredients;
 
                     decimal p_price, p_weight/*, base_price, base_weight*/;
-                    OrderLinesService.PizzaSize ps;
-                    ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
-                    (p_price, p_weight) = orderlinesService.GetConcretePriceAndWeight(p.Id, ps, count);
+                    //OrderLinesService.PizzaSize ps;
+                    int ps = (int)f.comboBoxPizzasSizes.SelectedValue;
+                    (p_price, p_weight) = orderLineService.GetConcretePriceAndWeight(p.Id, ps, count);
                     //(base_price, base_weight) = orderlinesService.GetBasePriceAndWeight(ps);
                     //p_price += base_price;
                     //p_weight += base_weight;
@@ -356,8 +357,8 @@ namespace Lab3POWinForms
                             orderLine.addedingredientsId.Add((int)f.dataGridView1.Rows[i].Cells[0].Value);
                         }
                     orderLine.custom = cu;
-                    orderlinesService.CreateOrderLine(orderLine);
-                    allorderlines = orderlinesService.GetAllOrderLines(currentOrderId);
+                    orderLineService.CreateOrderLine(orderLine);
+                    allorderlines = orderLineService.GetAllOrderLines(currentOrderId);
                     bindingSourceOrderLines.DataSource = allorderlines;
                     decimal price_res, weight_res;
                     (price_res, weight_res) = orderService.UpdateOrder(currentOrderId);
@@ -407,8 +408,8 @@ namespace Lab3POWinForms
                 //dbContext.clients.Remove(dbContext.clients.Find(id));
                 //dbContext.SaveChanges();
 
-                orderlinesService.DeleteOrderLine(id);
-                bindingSourceOrderLines.DataSource = orderlinesService.GetAllOrderLines(currentOrderId);
+                orderLineService.DeleteOrderLine(id);
+                bindingSourceOrderLines.DataSource = orderLineService.GetAllOrderLines(currentOrderId);
                 decimal price_res, weight_res;
                 (price_res, weight_res) = orderService.UpdateOrder(currentOrderId);
                 textBox1.Text = price_res.ToString();
@@ -459,12 +460,12 @@ namespace Lab3POWinForms
 
 
 
-                    allingredients = orderlinesService.GetConcreteIngredients((OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue, p.Id);
+                    allingredients = orderLineService.GetConcreteIngredients((int)f.comboBoxPizzasSizes.SelectedValue, p.Id);
                     f.dataGridView1.DataSource = allingredients;
                     decimal p_price, p_weight/*, base_price, base_weight*/;
-                    OrderLinesService.PizzaSize ps;
-                    ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
-                    (p_price, p_weight) = orderlinesService.GetConcretePriceAndWeight(p.pizzaId, ps, count);
+                    //OrderLinesService.PizzaSize ps;
+                    int ps = (int)f.comboBoxPizzasSizes.SelectedValue;
+                    (p_price, p_weight) = orderLineService.GetConcretePriceAndWeight(p.pizzaId, ps, count);
                     //(base_price, base_weight) = orderlinesService.GetBasePriceAndWeight(ps);
                     //p_price += base_price;
                     //p_weight += base_weight;
@@ -504,8 +505,8 @@ namespace Lab3POWinForms
                         if ((bool)f.dataGridView1.Rows[i].Cells[4].Value == true)
                             cu = true;
                     p.custom = cu;
-                    orderlinesService.UpdateOrderLine(p);
-                    allorderlines = orderlinesService.GetAllOrderLines(currentOrderId);
+                    orderLineService.UpdateOrderLine(p);
+                    allorderlines = orderLineService.GetAllOrderLines(currentOrderId);
                     bindingSourceOrderLines.DataSource = allorderlines;
                     decimal price_res, weight_res;
                     (price_res, weight_res) = orderService.UpdateOrder(currentOrderId);
@@ -536,7 +537,7 @@ namespace Lab3POWinForms
                 currentOrderId = orderService.GetCurrentOrder(currentClientId);
                 allorders = orderService.GetAllOrders(currentClientId);
                 bindingSourceOrders.DataSource = allorders;
-                allorderlines = orderlinesService.GetAllOrderLines(currentOrderId);
+                allorderlines = orderLineService.GetAllOrderLines(currentOrderId);
                 bindingSourceOrderLines.DataSource = allorderlines;
                 textBox1.Text = "";
                 textBox2.Text = "";
@@ -553,7 +554,7 @@ namespace Lab3POWinForms
 
         private void button10_Click(object sender, EventArgs e)
         {
-            dataGridViewReport1.DataSource = ReportService.ReportPizzas(null);
+            dataGridViewReport1.DataSource = reportService.ReportPizzas(null);
 
         }
 
@@ -607,9 +608,9 @@ namespace Lab3POWinForms
                     f.dataGridView1.DataSource = allingredients;
 
                     decimal p_price, p_weight/*, base_price, base_weight*/;
-                    OrderLinesService.PizzaSize ps;
-                    ps = (OrderLinesService.PizzaSize)f.comboBoxPizzasSizes.SelectedValue;
-                    (p_price, p_weight) = orderlinesService.GetConcretePriceAndWeight(p.Id, ps, count);
+                    //OrderLinesService.PizzaSize ps;
+                    int ps = (int)f.comboBoxPizzasSizes.SelectedValue;
+                    (p_price, p_weight) = orderLineService.GetConcretePriceAndWeight(p.Id, ps, count);
                     //(base_price, base_weight) = orderlinesService.GetBasePriceAndWeight(ps);
                     //p_price += base_price;
                     //p_weight += base_weight;
@@ -652,8 +653,8 @@ namespace Lab3POWinForms
                             orderLine.addedingredientsId.Add((int)f.dataGridView1.Rows[i].Cells[0].Value);
                         }
                     orderLine.custom = cu;
-                    orderlinesService.CreateOrderLine(orderLine);
-                    allorderlines = orderlinesService.GetAllOrderLines(currentOrderId);
+                    orderLineService.CreateOrderLine(orderLine);
+                    allorderlines = orderLineService.GetAllOrderLines(currentOrderId);
                     bindingSourceOrderLines.DataSource = allorderlines;
                     decimal price_res, weight_res;
                     (price_res, weight_res) = orderService.UpdateOrder(currentOrderId);

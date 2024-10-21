@@ -31,15 +31,15 @@ namespace Interfaces.Services
 
         List<DelStatusDto> GetDelStatuses();
 
-        BindingList<IngredientShortDto> GetIngredients(PizzaSize? ps);
+        BindingList<IngredientShortDto> GetIngredients(int? ps);
 
-        BindingList<IngredientShortDto> GetConcreteIngredients(PizzaSize ps, int ol_id);
+        BindingList<IngredientShortDto> GetConcreteIngredients(int ps, int ol_id);
 
-        (decimal price, decimal weight) GetBasePriceAndWeight(PizzaSize ps);
+        (decimal price, decimal weight) GetBasePriceAndWeight(int ps);
 
-        (decimal price, decimal weight) GetConcretePriceAndWeight(int p_id, PizzaSize ps, decimal count);
+        (decimal price, decimal weight) GetConcretePriceAndWeight(int p_id, int ps, decimal count);
 
-        (decimal price, decimal weight) PriceAndWeightCalculation(BindingList<IngredientShortDto> allingredients, PizzaSize ps, int p_id, decimal count);
+        (decimal price, decimal weight) PriceAndWeightCalculation(BindingList<IngredientShortDto> allingredients, int  ps, int p_id, decimal count);
 
         void ChangeAdditionalItems(BindingList<IngredientShortDto> allingredients, int add_id);
         

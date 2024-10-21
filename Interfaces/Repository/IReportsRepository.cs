@@ -9,7 +9,7 @@ namespace Interfaces.Repository
 {
     public interface IReportsRepository
     {
-        List<OrdersByMonth> ExecuteSP(int month, int year);
-        List<ReportData> PizzaWithIngredients(int ingrId);
+        List<OrdersByMonth> ExecuteSP(int month, int year, int ClientId);
+        List<ReportData> PizzaWithIngredients(int? ingrId);
     }
 }

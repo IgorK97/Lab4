@@ -107,3 +107,5 @@ C:\Users\Igor\source\repos\Lab4PO\Lab3POWinForms\bin\Debug\net8.0-windows\Domain
 C:\Users\Igor\source\repos\Lab4PO\Lab3POWinForms\bin\Debug\net8.0-windows\DomainModel.pdb
 C:\Users\Igor\source\repos\Lab4PO\Lab3POWinForms\bin\Debug\net8.0-windows\Interfaces.dll
 C:\Users\Igor\source\repos\Lab4PO\Lab3POWinForms\bin\Debug\net8.0-windows\Interfaces.pdb
+C:\Users\Igor\source\repos\Lab4PO\Lab3POWinForms\bin\Debug\net8.0-windows\Ninject.dll
+C:\Users\Igor\source\repos\Lab4PO\Lab3POWinForms\bin\Debug\net8.0-windows\Lab4POWinForms.dll.config

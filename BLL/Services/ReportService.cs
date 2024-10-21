@@ -27,7 +27,12 @@ namespace BLL.Services
         public List<OrdersByMonth> ExecuteSP(int month, int year, int ClientId)
         {
 
-            return db.Reports.ExecuteSP(month, year, ClientId).ToList();
+            return db.Reports.ExecuteSP(month, year, ClientId).Select(i => new OrdersByMonth
+            {
+                order_id = i.order_id,
+                courier_id = i.courier_id,
+                Date = i.Date
+            }).ToList();
 
 
         }
@@ -36,7 +41,13 @@ namespace BLL.Services
         public List<ReportData> ReportPizzas(int? ingredientId)
         {
 
-            var request = db.Reports.PizzaWithIngredients(ingredientId)
+            var request = db.Reports.PizzaWithIngredients(ingredientId).Select(i =>  
+            new ReportData
+            {
+                 Id=i.Id,
+                 Description=i.Description,
+                 Name=i.Name,
+            })
             .ToList();
             return request;
         }

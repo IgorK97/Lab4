@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Windows.Forms;
-using BLL;
-using BLL.Services;
-using DAL;
+//using BLL;
+//using BLL.Services;
+//using DAL;
 using DTO;
 using Interfaces.Services;
 
@@ -15,7 +15,6 @@ namespace Lab3POWinForms
         IOrderLineService orderLineService;
         int currentOrderId;
         int currentClientId;
-
         BindingList<IngredientShortDto> allingredients;
         List<OrderDto> allorders;
         List<OrderLineDto> allorderlines;

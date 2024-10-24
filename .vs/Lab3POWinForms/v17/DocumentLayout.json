@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Igor\\source\\repos\\Lab4PO\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{914AEC3A-E9B0-41EB-BBE9-BC008C954B5C}|Interfaces\\Interfaces.csproj|c:\\users\\igor\\source\\repos\\lab4po\\interfaces\\repository\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{914AEC3A-E9B0-41EB-BBE9-BC008C954B5C}|Interfaces\\Interfaces.csproj|solutionrelative:interfaces\\repository\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4E7D8985-12FB-499B-91CC-C9F1E1D153F4}|Lab3POWinForms\\Lab4POWinForms.csproj|c:\\users\\igor\\source\\repos\\lab4po\\lab3powinforms\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E7D8985-12FB-499B-91CC-C9F1E1D153F4}|Lab3POWinForms\\Lab4POWinForms.csproj|solutionrelative:lab3powinforms\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{914AEC3A-E9B0-41EB-BBE9-BC008C954B5C}|Interfaces\\Interfaces.csproj|c:\\users\\igor\\source\\repos\\lab4po\\interfaces\\repository\\idbrepos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{914AEC3A-E9B0-41EB-BBE9-BC008C954B5C}|Interfaces\\Interfaces.csproj|solutionrelative:interfaces\\repository\\idbrepos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E7D8985-12FB-499B-91CC-C9F1E1D153F4}|Lab3POWinForms\\Lab4POWinForms.csproj|c:\\users\\igor\\source\\repos\\lab4po\\lab3powinforms\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +38,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "IDbRepos.cs",
+              "DocumentMoniker": "C:\\Users\\Igor\\source\\repos\\Lab4PO\\Interfaces\\Repository\\IDbRepos.cs",
+              "RelativeDocumentMoniker": "Interfaces\\Repository\\IDbRepos.cs",
+              "ToolTip": "C:\\Users\\Igor\\source\\repos\\Lab4PO\\Interfaces\\Repository\\IDbRepos.cs",
+              "RelativeToolTip": "Interfaces\\Repository\\IDbRepos.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA5wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-24T14:24:24.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Igor\\source\\repos\\Lab4PO\\Interfaces\\Repository\\IRepository.cs",
+              "RelativeDocumentMoniker": "Interfaces\\Repository\\IRepository.cs",
+              "ToolTip": "C:\\Users\\Igor\\source\\repos\\Lab4PO\\Interfaces\\Repository\\IRepository.cs",
+              "RelativeToolTip": "Interfaces\\Repository\\IRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-24T14:21:25.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Igor\\source\\repos\\Lab4PO\\Lab3POWinForms\\Program.cs",
               "RelativeDocumentMoniker": "Lab3POWinForms\\Program.cs",
@@ -38,12 +72,11 @@
               "RelativeToolTip": "Lab3POWinForms\\Program.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAQwBAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-21T10:46:39.885Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-21T10:46:39.885Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\Igor\\source\\repos\\Lab4PO\\Lab3POWinForms\\Form1.cs",
               "RelativeDocumentMoniker": "Lab3POWinForms\\Form1.cs",

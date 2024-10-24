@@ -17,11 +17,11 @@ namespace BLL.Services
     public class OrderLinesService : IOrderLineService
     {
         private IDbRepos dbr;
-        private PizzaDeliveryContext db;
+        //private PizzaDeliveryContext db;
         public OrderLinesService(IDbRepos repos)
         {
             dbr = repos;
-            db = new PizzaDeliveryContext();
+            //db = new PizzaDeliveryContext();
         }
 
         public enum PizzaSizeEnum
@@ -33,13 +33,13 @@ namespace BLL.Services
 
         public List<OrderLineDto> GetAllOrderLines(int? OrderId)
         {
-            return db.OrderLines.ToList().Where(i => i.OrdersId == OrderId).Select(i => new OrderLineDto(i)).ToList();
+            return dbr.OrderLines.GetList().Where(i => i.OrdersId == OrderId).Select(i => new OrderLineDto(i)).ToList();
         }
 
 
         public OrderLineDto GetOrderLine(int Id)
         {
-            return new OrderLineDto(db.OrderLines.Find(Id));
+            return new OrderLineDto(dbr.OrderLines.GetItem(Id));
         }
 
         public void CreateOrderLine(OrderLineDto p)
@@ -47,10 +47,10 @@ namespace BLL.Services
             List<Ingredient> addedingredients = new List<Ingredient>();
             foreach(var pId in p.addedingredientsId)
             {
-                Ingredient ingr = db.Ingredients.Find(pId);
+                Ingredient ingr = dbr.Ingredients.GetItem(pId);
                 addedingredients.Add(ingr);
             }
-            db.OrderLines.Add(new OrderLine()
+            dbr.OrderLines.Create(new OrderLine()
             {
                 PositionPrice = p.position_price,
                 OrdersId = p.ordersId,
@@ -70,10 +70,10 @@ namespace BLL.Services
             List<Ingredient> addedingredients = new List<Ingredient>();
             foreach (var pId in p.addedingredientsId)
             {
-                Ingredient ingr = db.Ingredients.Find(pId);
+                Ingredient ingr = dbr.Ingredients.GetItem(pId);
                 addedingredients.Add(ingr);
             }
-            OrderLine ol = db.OrderLines.Find(p.Id);
+            OrderLine ol = dbr.OrderLines.GetItem(p.Id);
             ol.Weight = p.weight;
             ol.Custom = p.custom;
             ol.PizzaId = p.pizzaId;
@@ -87,41 +87,41 @@ namespace BLL.Services
 
         public void DeleteOrderLine(int id)
         {
-            OrderLine p = db.OrderLines.Find(id);
-            if (p != null)
-            {
-                db.OrderLines.Remove(p);
+            //OrderLine p = dbr.OrderLines.GetItem(id);
+            //if (p != null)
+            //{
+                dbr.OrderLines.Delete(id);
                 Save();
-            }
+            //}
         }
 
 
         public bool Save()
         {
-            if (db.SaveChanges() > 0) return true;
+            if (dbr.Save() > 0) return true;
             return false;
         }
 
         public List<PizzaDto> GetPizzas()
         {
-            return db.Pizzas.ToList().Select(i => new PizzaDto(i)).ToList();
+            return dbr.Pizzas.GetList().Select(i => new PizzaDto(i)).ToList();
         }
 
         public List<PizzaSizesDto> GetPizzaSizes()
         {
-            return db.PizzaSizes.ToList().Select(i => new PizzaSizesDto(i)).ToList();
+            return dbr.PizzaSizes.GetList().Select(i => new PizzaSizesDto(i)).ToList();
         }
 
         public List<DelStatusDto> GetDelStatuses()
         {
-            return db.DelStatuses.ToList().Select(i => new DelStatusDto(i)).ToList();
+            return dbr.DelStatuses.GetList().Select(i => new DelStatusDto(i)).ToList();
         }
 
         public BindingList<IngredientShortDto> GetIngredients(int? ps = null)
         {
             if (ps == null)
                 ps = (int)PizzaSizeEnum.Small;
-            var res = db.Ingredients.ToList().Select(i => new IngredientShortDto
+            var res = dbr.Ingredients.GetList().Select(i => new IngredientShortDto
             {
                 Id = i.Id,
                 C_name = i.Name,
@@ -139,7 +139,7 @@ namespace BLL.Services
         {
             
 
-            var res = db.Ingredients.Select(i => new IngredientShortDto
+            var res = dbr.Ingredients.GetList().Select(i => new IngredientShortDto
             {
                 Id = i.Id,
                 C_name = i.Name,
@@ -156,7 +156,7 @@ namespace BLL.Services
         public (decimal price, decimal weight) GetBasePriceAndWeight(int ps)
         {
 
-            var res = db.PizzaSizes.ToList().Where(i => i.Id == ps).
+            var res = dbr.PizzaSizes.GetList().Where(i => i.Id == ps).
                 Select(i => new
                 {
                     price = i.Price,
@@ -174,35 +174,35 @@ namespace BLL.Services
             (base_price, base_weight) = GetBasePriceAndWeight(ps);
             if (ps == (int)PizzaSizeEnum.Small)
             {
-                res_price = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
+                res_price = dbr.Ingredients.GetList().Where(p => p.Pizzas.Any(i => i.Id == p_id))
                 .Select(p => new
                 {
                     price = p.PricePerGram*p.Small
 
                 }).Sum(i => i.price);
-                res_weight = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
+                res_weight = dbr.Ingredients.GetList().Where(p => p.Pizzas.Any(i => i.Id == p_id))
                     .Sum(i => i.Small);
             }
             else if (ps == (int)PizzaSizeEnum.Medium)
             {
-                res_price = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
+                res_price = dbr.Ingredients.GetList().Where(p => p.Pizzas.Any(i => i.Id == p_id))
                 .Select(p => new
                 {
                     price = p.PricePerGram * p.Medium
 
                 }).Sum(i => i.price);
-                res_weight = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
+                res_weight = dbr.Ingredients.GetList().Where(p => p.Pizzas.Any(i => i.Id == p_id))
                     .Sum(i => i.Medium);
             }
             else
             {
-                res_price = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
+                res_price = dbr.Ingredients.GetList().Where(p => p.Pizzas.Any(i => i.Id == p_id))
                 .Select(p => new
                 {
                     price = p.PricePerGram * p.Big
 
                 }).Sum(i => i.price);
-                res_weight = db.Ingredients.Where(p => p.Pizzas.Any(i => i.Id == p_id))
+                res_weight = dbr.Ingredients.GetList().Where(p => p.Pizzas.Any(i => i.Id == p_id))
                     .Sum(i => i.Big);
             }
             res_price += base_price;
